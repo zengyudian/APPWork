@@ -9,45 +9,74 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView tv;
+    TextView tv1,tv2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tv=findViewById(R.id.textView2);
+        tv1=findViewById(R.id.textView3);
+        tv2=findViewById(R.id.textView4);
+
     }
 
-    public void one(View v){
+    public void one1(View v){
         Log.i("main","onClick msg");
-        String str=tv.getText().toString();
+        String str=tv1.getText().toString();
         Integer i=Integer.parseInt(str);
         i=i+1;
         String j=""+i;
-        tv.setText(j);
+        tv1.setText(j);
     }
 
-    public void two(View v){
+    public void two1(View v){
         Log.i("main","onClick msg");
-        String str=tv.getText().toString();
+        String str=tv1.getText().toString();
         Integer i=Integer.parseInt(str);
         i=i+2;
         String j=""+i;
-        tv.setText(j);
+        tv1.setText(j);
     }
 
-    public void three(View v){
+    public void three1(View v){
         Log.i("main","onClick msg");
-        String str=tv.getText().toString();
+        String str=tv1.getText().toString();
         Integer i=Integer.parseInt(str);
         i=i+3;
         String j=""+i;
-        tv.setText(j);
+        tv1.setText(j);
+    }
+
+    public void one2(View v){
+        Log.i("main","onClick msg");
+        String str=tv2.getText().toString();
+        Integer i=Integer.parseInt(str);
+        i=i+1;
+        String j=""+i;
+        tv2.setText(j);
+    }
+
+    public void two2(View v){
+        Log.i("main","onClick msg");
+        String str=tv2.getText().toString();
+        Integer i=Integer.parseInt(str);
+        i=i+2;
+        String j=""+i;
+        tv2.setText(j);
+    }
+
+    public void three2(View v){
+        Log.i("main","onClick msg");
+        String str=tv2.getText().toString();
+        Integer i=Integer.parseInt(str);
+        i=i+3;
+        String j=""+i;
+        tv2.setText(j);
     }
 
     public void reset(View v){
         Log.i("main","onClick msg");
-        tv.setText("0");
+        tv1.setText("0");
+        tv2.setText("0");
     }
-
 }
