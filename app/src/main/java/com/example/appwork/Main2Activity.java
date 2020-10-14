@@ -73,13 +73,13 @@ public class Main2Activity extends AppCompatActivity {
                     String url1 = "http://www.usd-cny.com/bankofchina.htm";
                     Document doc = Jsoup.connect(url1).get();
                     Log.i(TAG, "run: " + doc.title());
-                    Log.i(TAG, "run: " + doc);
+                    //Log.i(TAG, "run: " + doc);
                     Elements tables = doc.getElementsByTag("table");
-                    Log.i(TAG, "run: " + tables);
+                    //Log.i(TAG, "run: " + tables);
                     Element table = tables.get(0);
                     // 获取 TD 中的数据
                     Elements tds = table.getElementsByTag("td");
-                    Log.i(TAG, "run: " + tds);
+                    //Log.i(TAG, "run: " + tds);
 
                     rate_list = new ArrayList<String>();
                     for (int i = 0; i < tds.size(); i += 6) {
@@ -87,7 +87,7 @@ public class Main2Activity extends AppCompatActivity {
                         Element td2 = tds.get(i + 5);
                         String str1 = td1.text();
                         String val = td2.text();
-                        Log.i(TAG, "run: " + str1 + "==>" + val);
+                        //Log.i(TAG, "run: " + str1 + "==>" + val);
                         rate_list.add(str1 + "==>" + val);
                         // 获取数据并返回 ……
                     }

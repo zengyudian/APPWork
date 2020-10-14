@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static android.content.ContentValues.TAG;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG="MainActivity";
@@ -29,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
         tv=findViewById(R.id.textView);
         text=findViewById(R.id.editTextTextPersonName);
-
 
         SharedPreferences sharedPreferences=getSharedPreferences("myrate", Activity.MODE_PRIVATE);
         PreferenceManager.getDefaultSharedPreferences(this);

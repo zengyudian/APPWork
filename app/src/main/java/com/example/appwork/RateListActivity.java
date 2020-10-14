@@ -3,6 +3,8 @@ package com.example.appwork;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,9 +12,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
+import android.widget.AdapterView.*;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
@@ -26,31 +34,34 @@ import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static android.content.ContentValues.TAG;
 
 public class RateListActivity extends ListActivity {
 
     Handler handler;
+    ListView listview;
+    //ListView listview1;
 
     int year,month,day;
     LocalDate nowDate ;//当前时间
     LocalDate Date ;//上次更新数据时间
     Period period;//时间间隔
 
-
-
+    @SuppressLint("HandlerLeak")
     @RequiresApi(api = Build.VERSION_CODES.O)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_rate_list);
 
-        //setContentView(R.layout.activity_rate_list);
+        listview = this.findViewById(android.R.id.list);
+        //View a = View.inflate(this, R.layout.activity_rate_list, null);
+        //listview = a.findViewById(android.R.id.list);
+
+        Log.i(TAG, "12345678 "+listview );
 
         /*List<String> list1 = new ArrayList<String>();
         for (int i = 1; i < 100; i++) {
@@ -116,13 +127,55 @@ public class RateListActivity extends ListActivity {
             }
 
 
-            ListAdapter listItemAdapter = new SimpleAdapter(RateListActivity.this,
+            /*SimpleAdapter listItemAdapter = new SimpleAdapter(RateListActivity.this,
                     ratelist, // listItems 数据源
-                    R.layout.activity_rate_list, // ListItem 的 XML 布局实现
+                    R.layout.list_item, // ListItem 的 XML 布局实现
                     new String[] { "ItemTitle", "ItemDetail" },
                     new int[] { R.id.itemTitle, R.id.itemDetail }
             );
-            setListAdapter(listItemAdapter);
+            setListAdapter(listItemAdapter);*/
+
+            MyAdapter myAdapter = new MyAdapter(RateListActivity.this,
+                    R.layout.activity_rate_list,
+                    (ArrayList<HashMap<String, String>>) ratelist);
+            this.setListAdapter(myAdapter);
+
+            //listview.setOnItemClickListener((AdapterView.OnItemClickListener) this);
+            //listview.setOnItemClickListener(new ClickEvent());
+
+            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+              @Override
+              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                  //对整个item设置点击事件
+
+                  // parent是识别是哪个listview；
+                  // view是当前listview的item的view的布局，就是可以用这个view，获取里面的控件的id后操作控件
+                  // position是当前item在listview中适配器里的位置
+                  // id是当前item在listview里的第几行的位置
+                  Log.i(TAG, "dianji");
+                  //listview=findViewById(R.id.listview);
+                  Object itemAtPosition = listview.getItemAtPosition(position);
+                  HashMap<String,String> map = (HashMap<String, String>) itemAtPosition;
+                  String titleStr = map.get("ItemTitle");
+                  String detailStr = map.get("ItemDetail");
+                  Log.i(TAG, "onItemClick: titleStr=" + titleStr);
+                  Log.i(TAG, "onItemClick: detailStr=" + detailStr);
+                  TextView title = (TextView) view.findViewById(R.id.itemTitle);
+                  TextView detail = (TextView) view.findViewById(R.id.itemDetail);
+                  String title2 = String.valueOf(title.getText());
+                  String detail2 = String.valueOf(detail.getText());
+                  Log.i(TAG, "onItemClick: title2=" + title2);
+                  Log.i(TAG, "onItemClick: detail2=" + detail2);
+
+                  Intent main4=new Intent(RateListActivity.this,Main3Activity.class);
+                  main4.putExtra("name",title2);
+                  main4.putExtra("rate",detail2);
+                  Log.i(TAG,"open:name="+title2);
+                  Log.i(TAG,"open:rate="+detail2);
+                  startActivity(main4);
+              }
+         });
+
             /*ListAdapter adapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_list_item_1, ratelist);
             setListAdapter(adapter);*/
@@ -223,6 +276,7 @@ public class RateListActivity extends ListActivity {
 
 
         handler = new Handler() {
+            @SuppressLint("HandlerLeak")
             @Override
             public void handleMessage(Message msg) {
                 if (msg.what == 5) {
@@ -233,14 +287,54 @@ public class RateListActivity extends ListActivity {
                             android.R.layout.simple_list_item_1,
                             list2);
                     setListAdapter(adapter);*/
+
                     // 生成适配器的 Item 和动态数组对应的元素
-                    ListAdapter listItemAdapter = new SimpleAdapter(RateListActivity.this,
+                    /*SimpleAdapter listItemAdapter = new SimpleAdapter(RateListActivity.this,
                             list2, // listItems 数据源
-                            R.layout.activity_rate_list, // ListItem 的 XML 布局实现
+                            R.layout.list_item, // ListItem 的 XML 布局实现
                             new String[] { "ItemTitle", "ItemDetail" },
                             new int[] { R.id.itemTitle, R.id.itemDetail }
                     );
-                    setListAdapter(listItemAdapter);
+                    setListAdapter(listItemAdapter);*/
+
+
+                    MyAdapter myAdapter = new MyAdapter(RateListActivity.this,
+                            R.layout.activity_rate_list,
+                            (ArrayList<HashMap<String, String>>) list2);
+                    setListAdapter(myAdapter);
+
+                    listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            //对整个item设置点击事件
+
+                            // parent是识别是哪个listview；
+                            // view是当前listview的item的view的布局，就是可以用这个view，获取里面的控件的id后操作控件
+                            // position是当前item在listview中适配器里的位置
+                            // id是当前item在listview里的第几行的位置
+                            Log.i(TAG, "dianji");
+                            //listview=findViewById(R.id.listview);
+                            Object itemAtPosition = listview.getItemAtPosition(position);
+                            HashMap<String,String> map = (HashMap<String, String>) itemAtPosition;
+                            String titleStr = map.get("ItemTitle");
+                            String detailStr = map.get("ItemDetail");
+                            Log.i(TAG, "onItemClick: titleStr=" + titleStr);
+                            Log.i(TAG, "onItemClick: detailStr=" + detailStr);
+                            TextView title = (TextView) view.findViewById(R.id.itemTitle);
+                            TextView detail = (TextView) view.findViewById(R.id.itemDetail);
+                            String title2 = String.valueOf(title.getText());
+                            String detail2 = String.valueOf(detail.getText());
+                            Log.i(TAG, "onItemClick: title2=" + title2);
+                            Log.i(TAG, "onItemClick: detail2=" + detail2);
+
+                            Intent main4=new Intent(RateListActivity.this,Main3Activity.class);
+                            main4.putExtra("name",title2);
+                            main4.putExtra("rate",detail2);
+                            Log.i(TAG,"open:name="+title2);
+                            Log.i(TAG,"open:rate="+detail2);
+                            startActivity(main4);
+                        }
+                    });
                 }
                 super.handleMessage(msg);
             }
@@ -249,4 +343,66 @@ public class RateListActivity extends ListActivity {
 
     }
 
+
+
+    /*public class ClickEvent implements OnItemClickListener{
+        public void onItemClick(AdapterView<?> parent, View view,
+                                int position, long id) {
+            // parent是识别是哪个listview；
+            // view是当前listview的item的view的布局，就是可以用这个view，获取里面的控件的id后操作控件
+            // position是当前item在listview中适配器里的位置
+            // id是当前item在listview里的第几行的位置
+            Log.i(TAG, "dianji");
+            //listview=findViewById(R.id.listview);
+            Object itemAtPosition = listview.getItemAtPosition(position);
+            HashMap<String,String> map = (HashMap<String, String>) itemAtPosition;
+            String titleStr = map.get("ItemTitle");
+            String detailStr = map.get("ItemDetail");
+            Log.i(TAG, "onItemClick: titleStr=" + titleStr);
+            Log.i(TAG, "onItemClick: detailStr=" + detailStr);
+            TextView title = (TextView) view.findViewById(R.id.itemTitle);
+            TextView detail = (TextView) view.findViewById(R.id.itemDetail);
+            String title2 = String.valueOf(title.getText());
+            String detail2 = String.valueOf(detail.getText());
+            Log.i(TAG, "onItemClick: title2=" + title2);
+            Log.i(TAG, "onItemClick: detail2=" + detail2);
+
+            Intent main4=new Intent(RateListActivity.this,Main3Activity.class);
+            main4.putExtra("name",title2);
+            main4.putExtra("rate",detail2);
+            Log.i(TAG,"open:name="+title2);
+            Log.i(TAG,"open:rate="+detail2);
+            startActivity(main4);
+        }
+    }*/
+
+
+    public class MyAdapter extends ArrayAdapter {
+        private static final String TAG = "MyAdapter";
+
+        public MyAdapter(Context context,
+                         int resource,
+                         ArrayList<HashMap<String,String>> list) {
+            super(context, resource, list);
+
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View itemView = convertView;
+            if(itemView == null){
+                itemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item,
+                        parent,
+                        false);
+            }
+            Map<String,String> map = (Map<String, String>) getItem(position);
+            TextView title = (TextView) itemView.findViewById(R.id.itemTitle);
+            TextView detail = (TextView) itemView.findViewById(R.id.itemDetail);
+            title.setText(map.get("ItemTitle"));
+            detail.setText(map.get("ItemDetail"));
+            return itemView;
+        }
+
+    }
 }
+
+
