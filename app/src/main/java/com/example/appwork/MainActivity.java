@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         dollarRate=sharedPreferences.getFloat("dollar_rate",(float) 0.1465);
         euroRate=sharedPreferences.getFloat("euro_rate",(float) 0.1259);
-        wonRate=sharedPreferences.getFloat("won_rate",(float) 0.1259);
+        wonRate=sharedPreferences.getFloat("won_rate",(float) 171.3245);
 
         /*dollarRate= (float) 0.1464;
         euroRate= (float) 0.1255;
@@ -74,30 +74,36 @@ public class MainActivity extends AppCompatActivity {
     public void dollar(View btn){
 
 
-        String str=text.getText().toString();
-        Float i=Float.parseFloat(str);
-        Toast.makeText(this,"Hello msg",Toast.LENGTH_SHORT).show();
-        Log.i(TAG,"abc:onClicked");
+        try{
+            String str=text.getText().toString();
+            Float i=Float.parseFloat(str);
+            Toast.makeText(this,"Hello msg",Toast.LENGTH_SHORT).show();
+            Log.i(TAG,"abc:onClicked");
 
-        if(btn.getId()==R.id.dollar){//dollar
+            if(btn.getId()==R.id.dollar){//dollar
 
-            i=dollarRate*i;
-            String j=""+i;
-            tv.setText(j);
+                i=dollarRate*i;
+                String j=""+i;
+                tv.setText(j);
 
-        }else if(btn.getId()==R.id.euro){//euro
+            }else if(btn.getId()==R.id.euro){//euro
 
-            i=euroRate*i;
-            String j=""+i;
-            tv.setText(j);
+                i=euroRate*i;
+                String j=""+i;
+                tv.setText(j);
 
-        }else{//won
+            }else{//won
 
-            i=wonRate*i;
-            String j=""+i;
-            tv.setText(j);
+                i=wonRate*i;
+                String j=""+i;
+                tv.setText(j);
 
+            }
+        } catch (NumberFormatException e) {
+            Toast.makeText(this,"不规范输入值",Toast.LENGTH_SHORT).show();
         }
+
+
     }
 
     public void open(View btn){
