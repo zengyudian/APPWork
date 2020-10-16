@@ -2,8 +2,10 @@ package com.example.appwork;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -143,6 +145,7 @@ public class RateListActivity extends ListActivity {
 
             //listview.setOnItemClickListener((AdapterView.OnItemClickListener) this);
             listview.setOnItemClickListener(new ClickEvent());
+            listview.setOnItemLongClickListener(new LongClick());
 
 
             /*ListAdapter adapter = new ArrayAdapter<String>(this,
@@ -273,6 +276,7 @@ public class RateListActivity extends ListActivity {
                     setListAdapter(myAdapter);
 
                     listview.setOnItemClickListener(new ClickEvent());
+                    listview.setOnItemLongClickListener(new LongClick());
                 }
                 super.handleMessage(msg);
             }
@@ -282,6 +286,28 @@ public class RateListActivity extends ListActivity {
     }
 
 
+    public class LongClick implements OnItemLongClickListener{
+        public boolean onItemLongClick(AdapterView<?> parent,
+                                       View view, final int position, long id) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(RateListActivity.this);
+            builder.setTitle(" 提示")
+                    .setMessage(" 请确认是否删除当前数据")
+                    .setPositiveButton(" 是", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Log.i(TAG, "onClick: 对话框事件处理");
+                            // 删除数据项
+                            Log.i(TAG, "删除");
+                            myAdapter.remove(listview.getItemAtPosition(position));
+                            // 更新适配器
+                            myAdapter.notifyDataSetChanged();
+                        }
+                    }).setNegativeButton(" 否", null);
+            builder.create().show();
+
+            return true;
+        }
+    }
 
     public class ClickEvent implements OnItemClickListener{
         public void onItemClick(AdapterView<?> parent, View view,
