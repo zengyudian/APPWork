@@ -45,6 +45,7 @@ public class RateListActivity extends ListActivity {
     Handler handler;
     ListView listview;
     //ListView listview1;
+    MyAdapter myAdapter;
 
     int year,month,day;
     LocalDate nowDate ;//当前时间
@@ -135,46 +136,14 @@ public class RateListActivity extends ListActivity {
             );
             setListAdapter(listItemAdapter);*/
 
-            MyAdapter myAdapter = new MyAdapter(RateListActivity.this,
+            myAdapter = new MyAdapter(RateListActivity.this,
                     R.layout.activity_rate_list,
                     (ArrayList<HashMap<String, String>>) ratelist);
             this.setListAdapter(myAdapter);
 
             //listview.setOnItemClickListener((AdapterView.OnItemClickListener) this);
-            //listview.setOnItemClickListener(new ClickEvent());
+            listview.setOnItemClickListener(new ClickEvent());
 
-            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-              @Override
-              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                  //对整个item设置点击事件
-
-                  // parent是识别是哪个listview；
-                  // view是当前listview的item的view的布局，就是可以用这个view，获取里面的控件的id后操作控件
-                  // position是当前item在listview中适配器里的位置
-                  // id是当前item在listview里的第几行的位置
-                  Log.i(TAG, "dianji");
-                  //listview=findViewById(R.id.listview);
-                  Object itemAtPosition = listview.getItemAtPosition(position);
-                  HashMap<String,String> map = (HashMap<String, String>) itemAtPosition;
-                  String titleStr = map.get("ItemTitle");
-                  String detailStr = map.get("ItemDetail");
-                  Log.i(TAG, "onItemClick: titleStr=" + titleStr);
-                  Log.i(TAG, "onItemClick: detailStr=" + detailStr);
-                  TextView title = (TextView) view.findViewById(R.id.itemTitle);
-                  TextView detail = (TextView) view.findViewById(R.id.itemDetail);
-                  String title2 = String.valueOf(title.getText());
-                  String detail2 = String.valueOf(detail.getText());
-                  Log.i(TAG, "onItemClick: title2=" + title2);
-                  Log.i(TAG, "onItemClick: detail2=" + detail2);
-
-                  Intent main4=new Intent(RateListActivity.this,Main3Activity.class);
-                  main4.putExtra("name",title2);
-                  main4.putExtra("rate",detail2);
-                  Log.i(TAG,"open:name="+title2);
-                  Log.i(TAG,"open:rate="+detail2);
-                  startActivity(main4);
-              }
-         });
 
             /*ListAdapter adapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_list_item_1, ratelist);
@@ -298,43 +267,12 @@ public class RateListActivity extends ListActivity {
                     setListAdapter(listItemAdapter);*/
 
 
-                    MyAdapter myAdapter = new MyAdapter(RateListActivity.this,
+                    myAdapter = new MyAdapter(RateListActivity.this,
                             R.layout.activity_rate_list,
                             (ArrayList<HashMap<String, String>>) list2);
                     setListAdapter(myAdapter);
 
-                    listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            //对整个item设置点击事件
-
-                            // parent是识别是哪个listview；
-                            // view是当前listview的item的view的布局，就是可以用这个view，获取里面的控件的id后操作控件
-                            // position是当前item在listview中适配器里的位置
-                            // id是当前item在listview里的第几行的位置
-                            Log.i(TAG, "dianji");
-                            //listview=findViewById(R.id.listview);
-                            Object itemAtPosition = listview.getItemAtPosition(position);
-                            HashMap<String,String> map = (HashMap<String, String>) itemAtPosition;
-                            String titleStr = map.get("ItemTitle");
-                            String detailStr = map.get("ItemDetail");
-                            Log.i(TAG, "onItemClick: titleStr=" + titleStr);
-                            Log.i(TAG, "onItemClick: detailStr=" + detailStr);
-                            TextView title = (TextView) view.findViewById(R.id.itemTitle);
-                            TextView detail = (TextView) view.findViewById(R.id.itemDetail);
-                            String title2 = String.valueOf(title.getText());
-                            String detail2 = String.valueOf(detail.getText());
-                            Log.i(TAG, "onItemClick: title2=" + title2);
-                            Log.i(TAG, "onItemClick: detail2=" + detail2);
-
-                            Intent main4=new Intent(RateListActivity.this,Main3Activity.class);
-                            main4.putExtra("name",title2);
-                            main4.putExtra("rate",detail2);
-                            Log.i(TAG,"open:name="+title2);
-                            Log.i(TAG,"open:rate="+detail2);
-                            startActivity(main4);
-                        }
-                    });
+                    listview.setOnItemClickListener(new ClickEvent());
                 }
                 super.handleMessage(msg);
             }
@@ -345,14 +283,20 @@ public class RateListActivity extends ListActivity {
 
 
 
-    /*public class ClickEvent implements OnItemClickListener{
+    public class ClickEvent implements OnItemClickListener{
         public void onItemClick(AdapterView<?> parent, View view,
                                 int position, long id) {
             // parent是识别是哪个listview；
             // view是当前listview的item的view的布局，就是可以用这个view，获取里面的控件的id后操作控件
             // position是当前item在listview中适配器里的位置
             // id是当前item在listview里的第几行的位置
-            Log.i(TAG, "dianji");
+
+            //进行删除操作
+            /*Log.i(TAG, "删除");
+            myAdapter.remove(listview.getItemAtPosition(position));
+            myAdapter.notifyDataSetChanged();*/
+
+            Log.i(TAG, "点击");
             //listview=findViewById(R.id.listview);
             Object itemAtPosition = listview.getItemAtPosition(position);
             HashMap<String,String> map = (HashMap<String, String>) itemAtPosition;
@@ -374,7 +318,7 @@ public class RateListActivity extends ListActivity {
             Log.i(TAG,"open:rate="+detail2);
             startActivity(main4);
         }
-    }*/
+    }
 
 
     public class MyAdapter extends ArrayAdapter {
