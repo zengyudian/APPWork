@@ -142,6 +142,7 @@ public class RateListActivity extends ListActivity {
                     R.layout.activity_rate_list,
                     (ArrayList<HashMap<String, String>>) ratelist);
             this.setListAdapter(myAdapter);
+            listview.setEmptyView(findViewById(R.id.nodata));
 
             //listview.setOnItemClickListener((AdapterView.OnItemClickListener) this);
             listview.setOnItemClickListener(new ClickEvent());
@@ -274,6 +275,7 @@ public class RateListActivity extends ListActivity {
                             R.layout.activity_rate_list,
                             (ArrayList<HashMap<String, String>>) list2);
                     setListAdapter(myAdapter);
+                    listview.setEmptyView(findViewById(R.id.nodata));
 
                     listview.setOnItemClickListener(new ClickEvent());
                     listview.setOnItemLongClickListener(new LongClick());
