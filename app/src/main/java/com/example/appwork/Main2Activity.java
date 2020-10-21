@@ -2,6 +2,7 @@ package com.example.appwork;
 
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -175,6 +176,13 @@ public class Main2Activity extends AppCompatActivity {
 
         Log.i(TAG,"search12345678");
         startActivity(main3);
+    }
+
+    public void database(View btn){
+        Intent main5=new Intent(Main2Activity.this, Main4Activity.class);
+
+        Log.i(TAG,"database");
+        startActivity(main5);
     }
 
 }

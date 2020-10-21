@@ -33,6 +33,7 @@
             <activity android:name=".Main2Activity" />
             <activity android:name=".Main3Activity" />
             <activity android:name=".RateListActivity" />
+            <activity android:name=".Main4Activity" />
         </application>
 
     </manifest>
