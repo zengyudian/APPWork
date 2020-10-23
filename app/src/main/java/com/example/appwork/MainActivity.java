@@ -122,5 +122,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void home(View btn){
+        Intent main2=new Intent(MainActivity.this,FrameActivity.class);
+        startActivity(main2);
+    }
 
 }
